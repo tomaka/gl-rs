@@ -13,6 +13,6 @@ name = "gl_generator"
 plugin = true
 path = "src/gl_generator.rs"
 
-[dependencies.sax-rs]
+[dependencies.rust-xml]
+git = "https://github.com/netvl/rust-xml"
 
-git = "https://github.com/bjz/sax-rs"
