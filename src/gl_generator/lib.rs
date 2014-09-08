@@ -89,14 +89,10 @@ use syntax::parse::token;
 use syntax::ast::{ Item, TokenTree };
 use syntax::ext::base::{expr_to_string, get_exprs_from_tts, DummyResult, ExtCtxt, MacResult};
 use syntax::codemap::Span;
-
 use registry::*;
-use static_gen::StaticGenerator;
-use struct_gen::StructGenerator;
 
 mod common;
-pub mod static_gen;
-pub mod struct_gen;
+pub mod generators;
 pub mod registry;
 pub mod ty;
 
@@ -193,13 +189,13 @@ fn macro_handler(ecx: &mut ExtCtxt, span: Span, token_tree: &[TokenTree]) -> Box
         let result = match generator.as_slice() {
             "static" => task::try(proc() {
                 let mut buffer = MemWriter::new();
-                StaticGenerator::write(&mut buffer, &reg, ns);
+                generators::StaticGenerator::write(&mut buffer, &reg, ns);
                 buffer
             }),
 
             "struct" => task::try(proc() {
                 let mut buffer = MemWriter::new();
-                StructGenerator::write(&mut buffer, &reg, ns);
+                generators::StructGenerator::write(&mut buffer, &reg, ns);
                 buffer
             }),
 
